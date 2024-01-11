@@ -1,16 +1,55 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flatacuties</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flatacuties</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <body>
-  <div id="characters-list"></div>
-  <div id="character-details"></div>
+    <div id="filterContainer">
+        <div id="filterText">
+            <span style="float: left; position: absolute;">Filter: </span>
+        </div>
 
-  <script src="index.js"></script>
+        <div id="filterBtnContainer" class="scrolling-wrapper-filter-btns"></div>
+    </div>
+
+    <div id="character-bar-container">
+        <div id="character-bar"></div>
+    </div>
+
+    <div class="characterInfo">
+        <div class="logo">
+            <h1>Flatacuties</h1>
+        </div>
+        <br />
+
+        <div id="detailed-info">
+            <p id="name">Character's Name</p>
+            <div id="image-container">
+                <img id="image" src="assets/dummy.gif" alt="Character's Name" />
+            </div>
+            <h4 id="vote-countH4">
+                Total Votes:
+                <span id="vote-count" type="number">Character's Votes</span>
+            </h4>
+            <form id="votes-form">
+                <input
+                    type="number"
+                    placeholder="Enter Votes (+1 if Empty)"
+                    id="votes"
+                    name="votes"
+                />
+                <input type="submit" value="Add Votes" />
+            </form>
+        </div>
+        <form id="add-flatacutie-form">
+            <input type="submit" value="Add Flatacutie" />
+        </form>
+    </div>
+
+    <script src="src/index.js"></script>
 </body>
 </html>
+

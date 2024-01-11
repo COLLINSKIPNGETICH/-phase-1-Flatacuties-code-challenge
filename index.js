@@ -1,55 +1,49 @@
-// flatacuties index.js
 document.addEventListener('DOMContentLoaded', () => {
-  const charactersListContainer = document.getElementById('characters-list');
-  const characterDetailsContainer = document.getElementById('character-details');
+    const animalListContainer = document.getElementById('animal-list');
+    const animalDetailsContainer = document.getElementById('animal-details');
+    const resetButton = document.getElementById('reset-button');
 
-  // Challenge 1
-  fetchCharacters();
+    // Function to fetch data from the server
+    const fetchData = async (url) => {
+        const response = await fetch(url);
+        const data = await response.json();
+        return data;
+    };
 
-  function fetchCharacters() {
-    fetch('http://localhost:3000/characters')
-      .then(response => response.json())
-      .then(characters => {
-        charactersListContainer.innerHTML = '';
-        characters.forEach(character => {
-          const characterCard = document.createElement('div');
-          characterCard.classList.add('character-card');
-          characterCard.innerText = character.name;
-          characterCard.addEventListener('click', () => showCharacterDetails(character.id));
-          charactersListContainer.appendChild(characterCard);
+    // Function to render animal list
+    const renderAnimalList = async () => {
+        const animals = await fetchData('http://localhost:3000/characters');
+
+        animals.forEach(animal => {
+            const animalName = document.createElement('div');
+            animalName.innerText = animal.name;
+
+            // Event listener for clicking on an animal name
+            animalName.addEventListener('click', () => {
+                renderAnimalDetails(animal.id);
+            });
+
+            animalListContainer.appendChild(animalName);
         });
-      });
-  }
+    };
 
-  // Challenge 2
-  function showCharacterDetails(characterId) {
-    fetch(`http://localhost:3000/characters/${characterId}`)
-      .then(response => response.json())
-      .then(character => {
-        characterDetailsContainer.innerHTML = `
-          <h2>${character.name}</h2>
-          <img src="${character.image}" alt="${character.name}">
-          <p>Votes: ${character.votes}</p>
-          <button id="vote-btn">Vote</button>
+    // Function to render animal details
+    const renderAnimalDetails = async (animalId) => {
+        const animalDetails = await fetchData(`http://localhost:3000/characters/${animalId}`);
+        animalDetailsContainer.innerHTML = `
+            <h2>${animalDetails.name}</h2>
+            <img src="${animalDetails.image}" alt="${animalDetails.name}">
+            <p>Votes: ${animalDetails.votes}</p>
         `;
+    };
 
-        const voteBtn = document.getElementById('vote-btn');
-        voteBtn.addEventListener('click', () => voteForCharacter(characterId));
-      });
-  }
+    // Event listener for the reset button
+    resetButton.addEventListener('click', () => {
+        // Implement code to reset votes (bonus deliverable)
+        console.log('Resetting votes...');
+    });
 
-  // Challenge 3
-  function voteForCharacter(characterId) {
-    fetch(`http://localhost:3000/characters/${characterId}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ votes: 1 }),
-    })
-      .then(() => {
-        fetchCharacters();
-        showCharacterDetails(characterId); 
-      });
-  }
+    // Initial rendering of the animal list
+    renderAnimalList();
 });
+
